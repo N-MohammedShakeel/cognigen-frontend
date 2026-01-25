@@ -1,18 +1,42 @@
-// cognigen-frontend/src/pages/Auth/Signup.jsx
-import { useState } from "react";
+// cognigen-frontend/src/pages/Auth/Login.jsx
+import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { motion } from "framer-motion";
 import { signup } from "../../api/authApi";
+import BackgroundSplashes from "../../components/BackgroundSplashes";
+import RobotAvatar from "../../components/RobotAvatar";
+
+const containerVariants = {
+  hidden: { opacity: 0 },
+  visible: { opacity: 1, transition: { staggerChildren: 0.08 } },
+};
+
+const itemVariants = {
+  hidden: { y: 20, opacity: 0 },
+  visible: { y: 0, opacity: 1 },
+};
 
 export default function Signup() {
   const [formData, setFormData] = useState({
     name: "",
     email: "",
-    phone: "",
     password: "",
     confirmPassword: "",
   });
   const [loading, setLoading] = useState(false);
+  const [isEmailFocused, setIsEmailFocused] = useState(false);
+  const [isPasswordFocused, setIsPasswordFocused] = useState(false);
+  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const handleMouseMove = (e) => {
+      setMousePosition({ x: e.clientX, y: e.clientY });
+    };
+    window.addEventListener("mousemove", handleMouseMove);
+    return () => window.removeEventListener("mousemove", handleMouseMove);
+  }, []);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -22,7 +46,7 @@ export default function Signup() {
     }
     setLoading(true);
     try {
-      await signup(formData);
+      await signup({ ...formData, phone: "" }); // phone optional → removed
       alert("Account created successfully! 🎉");
       navigate("/home");
     } catch (err) {
@@ -33,84 +57,157 @@ export default function Signup() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-purple-50 to-pink-50 px-4">
-      <div className="max-w-md w-full bg-white rounded-2xl shadow-xl p-8">
-        <h2 className="text-3xl font-bold text-center text-gray-800 mb-8">
-          Create Account
-        </h2>
+    <>
+      <BackgroundSplashes />
 
-        <form onSubmit={handleSubmit} className="space-y-5">
-          <input
-            type="text"
-            placeholder="Full Name"
-            required
-            className="w-full px-5 py-4 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500"
-            value={formData.name}
-            onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-          />
+      <div className="min-h-screen flex items-center justify-center px-4 py-12 bg-gradient-to-br from-purple-50/80 via-pink-50/60 to-indigo-50/40">
+        <div className="grid md:grid-cols-2 gap-12 max-w-6xl w-full items-center">
+          <div className="hidden md:flex justify-center">
+            <RobotAvatar
+              isEmailFocused={isEmailFocused}
+              isPasswordFocused={isPasswordFocused}
+              mousePosition={mousePosition}
+            />
+          </div>
 
-          <input
-            type="email"
-            placeholder="Email address"
-            required
-            className="w-full px-5 py-4 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500"
-            value={formData.email}
-            onChange={(e) =>
-              setFormData({ ...formData, email: e.target.value })
-            }
-          />
-
-          <input
-            type="tel"
-            placeholder="Phone Number (optional)"
-            className="w-full px-5 py-4 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500"
-            value={formData.phone}
-            onChange={(e) =>
-              setFormData({ ...formData, phone: e.target.value })
-            }
-          />
-
-          <input
-            type="password"
-            placeholder="Password"
-            required
-            className="w-full px-5 py-4 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500"
-            value={formData.password}
-            onChange={(e) =>
-              setFormData({ ...formData, password: e.target.value })
-            }
-          />
-
-          <input
-            type="password"
-            placeholder="Confirm Password"
-            required
-            className="w-full px-5 py-4 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500"
-            value={formData.confirmPassword}
-            onChange={(e) =>
-              setFormData({ ...formData, confirmPassword: e.target.value })
-            }
-          />
-
-          <button
-            type="submit"
-            disabled={loading}
-            className="w-full py-4 bg-purple-600 text-white font-semibold rounded-lg hover:bg-purple-700 transition disabled:opacity-70"
+          <motion.div
+            variants={containerVariants}
+            initial="hidden"
+            animate="visible"
+            className="backdrop-blur-xl bg-white/40 border border-white/30 shadow-2xl rounded-3xl p-10 md:p-12 relative overflow-hidden"
           >
-            {loading ? "Creating Account..." : "Sign Up"}
-          </button>
-        </form>
+            <div className="absolute top-0 right-0 w-40 h-40 bg-[#5d60ef]/5 rounded-full blur-3xl -mr-20 -mt-20" />
 
-        <p className="text-center mt-6 text-gray-600">
-          Already have an account?{" "}
-          <Link
-            to="/login"
-            className="text-purple-600 font-medium hover:underline"
-          >
-            Login
-          </Link>
-        </p>
+            <motion.h2
+              variants={itemVariants}
+              className="text-3xl font-bold text-gray-800 mb-2"
+            >
+              Create Account
+            </motion.h2>
+            <motion.p variants={itemVariants} className="text-gray-600 mb-8">
+              Join Cognigen to unlock your full potential.
+            </motion.p>
+
+            <form onSubmit={handleSubmit} className="space-y-5">
+              <motion.div variants={itemVariants} className="space-y-2">
+                <label className="text-sm font-semibold text-gray-700 ml-1">
+                  Full Name
+                </label>
+                <div className="relative group">
+                  <span className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 group-focus-within:text-[#5d60ef] transition-colors">
+                    <i className="fas fa-user"></i>
+                  </span>
+                  <input
+                    type="text"
+                    placeholder="John Doe"
+                    required
+                    className="w-full pl-12 pr-4 py-3.5 rounded-2xl bg-white/60 border border-gray-200 focus:border-[#5d60ef] focus:ring-4 focus:ring-[#5d60ef]/20 outline-none transition-all"
+                    value={formData.name}
+                    onChange={(e) =>
+                      setFormData({ ...formData, name: e.target.value })
+                    }
+                  />
+                </div>
+              </motion.div>
+
+              <motion.div variants={itemVariants} className="space-y-2">
+                <label className="text-sm font-semibold text-gray-700 ml-1">
+                  Email Address
+                </label>
+                <div className="relative group">
+                  <span className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 group-focus-within:text-[#5d60ef] transition-colors">
+                    <i className="fas fa-envelope"></i>
+                  </span>
+                  <input
+                    type="email"
+                    placeholder="name@company.com"
+                    required
+                    onFocus={() => setIsEmailFocused(true)}
+                    onBlur={() => setIsEmailFocused(false)}
+                    className="w-full pl-12 pr-4 py-3.5 rounded-2xl bg-white/60 border border-gray-200 focus:border-[#5d60ef] focus:ring-4 focus:ring-[#5d60ef]/20 outline-none transition-all"
+                    value={formData.email}
+                    onChange={(e) =>
+                      setFormData({ ...formData, email: e.target.value })
+                    }
+                  />
+                </div>
+              </motion.div>
+
+              <motion.div variants={itemVariants} className="space-y-2">
+                <label className="text-sm font-semibold text-gray-700 ml-1">
+                  Password
+                </label>
+                <div className="relative group">
+                  <span className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 group-focus-within:text-[#5d60ef] transition-colors">
+                    <i className="fas fa-lock"></i>
+                  </span>
+                  <input
+                    type="password"
+                    placeholder="Minimum 8 characters"
+                    required
+                    onFocus={() => setIsPasswordFocused(true)}
+                    onBlur={() => setIsPasswordFocused(false)}
+                    className="w-full pl-12 pr-4 py-3.5 rounded-2xl bg-white/60 border border-gray-200 focus:border-[#5d60ef] focus:ring-4 focus:ring-[#5d60ef]/20 outline-none transition-all"
+                    value={formData.password}
+                    onChange={(e) =>
+                      setFormData({ ...formData, password: e.target.value })
+                    }
+                  />
+                </div>
+              </motion.div>
+
+              <motion.div variants={itemVariants} className="space-y-2">
+                <label className="text-sm font-semibold text-gray-700 ml-1">
+                  Confirm Password
+                </label>
+                <div className="relative group">
+                  <span className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 group-focus-within:text-[#5d60ef] transition-colors">
+                    <i className="fas fa-lock"></i>
+                  </span>
+                  <input
+                    type="password"
+                    placeholder="••••••••"
+                    required
+                    className="w-full pl-12 pr-4 py-3.5 rounded-2xl bg-white/60 border border-gray-200 focus:border-[#5d60ef] focus:ring-4 focus:ring-[#5d60ef]/20 outline-none transition-all"
+                    value={formData.confirmPassword}
+                    onChange={(e) =>
+                      setFormData({
+                        ...formData,
+                        confirmPassword: e.target.value,
+                      })
+                    }
+                  />
+                </div>
+              </motion.div>
+
+              <motion.button
+                variants={itemVariants}
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
+                type="submit"
+                disabled={loading}
+                className="w-full bg-[#5d60ef] hover:bg-[#4a4df2] text-white font-bold py-4 rounded-2xl shadow-xl shadow-[#5d60ef]/30 transition-all flex items-center justify-center gap-2 disabled:opacity-70"
+              >
+                {loading ? "Creating Account..." : "Get Started"}
+                <i className="fas fa-rocket text-sm"></i>
+              </motion.button>
+            </form>
+
+            <motion.div
+              variants={itemVariants}
+              className="mt-8 text-center text-gray-600 text-sm"
+            >
+              Already a member?{" "}
+              <Link
+                to="/login"
+                className="font-bold text-[#5d60ef] hover:underline"
+              >
+                Log in here
+              </Link>
+            </motion.div>
+          </motion.div>
+        </div>
       </div>
-    </div>
+    </>
   );
 }
