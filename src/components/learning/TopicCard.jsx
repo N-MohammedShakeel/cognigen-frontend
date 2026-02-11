@@ -1,8 +1,9 @@
+// src/components/learning/TopicCard.jsx
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { FiChevronDown, FiChevronUp, FiZap } from "react-icons/fi";
 import toast from "react-hot-toast";
-import api from "../api/instance";
+import api from "../../api/instance";
 
 export default function TopicCard({
   topic,

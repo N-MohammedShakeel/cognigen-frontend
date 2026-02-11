@@ -1,9 +1,9 @@
-// src/components/PathEditModal.jsx
+// src/components/learning/PathEditModal.jsx
 import { useState, useEffect, useRef } from "react";
 import { motion } from "framer-motion";
 import { FiX, FiPlus, FiEdit2, FiTrash2 } from "react-icons/fi";
 import toast from "react-hot-toast";
-import api from "../api/instance";
+import api from "../../api/instance";
 
 function SubmoduleDeleteConfirm({ isOpen, onClose, onConfirm, subTitle }) {
   if (!isOpen) return null;
@@ -231,8 +231,6 @@ export default function PathEditModal({
         onTopicAdded(res.data);
         toast.success("Topic & submodules added");
       }
-
-      // Reset
       setTopicName("");
       setTopicDifficulty("medium");
       setTopicEstTime(60);

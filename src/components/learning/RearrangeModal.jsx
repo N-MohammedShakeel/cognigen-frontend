@@ -1,27 +1,11 @@
-// src/components/RearrangeModal.jsx
+// src/components/learning/RearrangeModal.jsx
 import { useState } from "react";
 import { motion } from "framer-motion";
-import {
-  DndContext,
-  closestCenter,
-  KeyboardSensor,
-  PointerSensor,
-  useSensor,
-  useSensors,
-} from "@dnd-kit/core";
-import {
-  arrayMove,
-  SortableContext,
-  sortableKeyboardCoordinates,
-  verticalListSortingStrategy,
-} from "@dnd-kit/sortable";
-import { restrictToVerticalAxis } from "@dnd-kit/modifiers";
 import { FiX, FiMove } from "react-icons/fi";
 import SubmoduleReorderView from "./SubmoduleReorderView";
 import TopicReorderView from "./TopicReorderView";
-import SortableItem from "./SortableItem";
 import toast from "react-hot-toast";
-import api from "../api/instance";
+import api from "../../api/instance";
 
 export default function RearrangeModal({
   isOpen,
@@ -30,7 +14,7 @@ export default function RearrangeModal({
   onTopicsReordered,
   onSubmodulesReordered,
 }) {
-  const [mode, setMode] = useState(null); // null | "topics" | "submodules"
+  const [mode, setMode] = useState(null);
   const [selectedTopicId, setSelectedTopicId] = useState(null);
 
   if (!isOpen) return null;

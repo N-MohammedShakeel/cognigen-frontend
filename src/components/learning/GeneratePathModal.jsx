@@ -1,10 +1,10 @@
-// src/pages/Learning/components/GeneratePathModal.jsx
+// src/components/learning/GeneratePathModal.jsx
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { FiX, FiArrowLeft, FiArrowRight, FiZap } from "react-icons/fi";
-import { useAuth } from "../../../context/AuthContext";
+import { useAuth } from "../../context/AuthContext";
 import toast from "react-hot-toast";
-import api from "../../../api/instance";
+import api from "../../api/instance";
 
 const steps = [
   { id: 1, title: "What do you want to learn?", field: "course_name" },

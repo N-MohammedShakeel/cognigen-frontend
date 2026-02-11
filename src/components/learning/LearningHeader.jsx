@@ -1,20 +1,13 @@
-// src/components/LearningHeader.jsx
+// src/components/learning/LearningHeader.jsx
 import { useNavigate, useLocation } from "react-router-dom";
 import { motion } from "framer-motion";
 import { FiArrowLeft } from "react-icons/fi";
-import { useAuth } from "../context/AuthContext"; // ← add this import
-import BackgroundSplashes from "./BackgroundSplashes";
+import { useAuth } from "../../context/AuthContext";
+import BackgroundSplashes from "../common/BackgroundSplashes";
 
 export default function LearningHeader({ title = "Learning Resources" }) {
   const navigate = useNavigate();
-  const location = useLocation();
-
-  // Get user from context
-  const { user } = useAuth(); // ← add this line
-
-  const isDetailPage =
-    location.pathname.includes("/learning-resources/") &&
-    location.pathname !== "/learning-resources";
+  const { user } = useAuth();
 
   return (
     <>

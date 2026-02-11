@@ -3,11 +3,12 @@ import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
-import ProCard from "../../components/ui/ProCard";
-import ProgressCircle from "../../components/ui/ProgressCircle";
-import AnimatedRobot from "../../components/AnimatedRobot";
-import LearningHeader from "../../components/LearningHeader";
-import GeneratePathModal from "./components/GeneratePathModal";
+import ProCard from "../../components/learning/ProCard";
+import ProgressCircle from "../../components/learning/ProgressCircle";
+import AnimatedRobot from "../../components/learning/AnimatedRobot";
+import LearningHeader from "../../components/learning/LearningHeader";
+import GeneratePathModal from "../../components/learning/GeneratePathModal";
+import DeleteConfirmModal from "../../components/common/DeleteConfirmModal";
 import { FiZap, FiTrash2 } from "react-icons/fi";
 import toast from "react-hot-toast";
 import api from "../../api/instance";
@@ -20,70 +21,6 @@ const loadingMessages = [
   "Your path to mastery is taking shape...",
   "Finalizing topics tailored to your schedule...",
 ];
-
-/* ---------------- DELETE MODAL ---------------- */
-
-function DeleteConfirmModal({ isOpen, onClose, onConfirm, pathTitle }) {
-  const [input, setInput] = useState("");
-
-  if (!isOpen) return null;
-
-  const confirmed = input.trim().toLowerCase() === "delete";
-
-  return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-4">
-      <motion.div
-        initial={{ scale: 0.9, opacity: 0 }}
-        animate={{ scale: 1, opacity: 1 }}
-        exit={{ scale: 0.9, opacity: 0 }}
-        className="bg-white rounded-2xl shadow-2xl p-8 max-w-md w-full"
-      >
-        <h2 className="text-2xl font-bold text-red-700 mb-4">
-          Delete Learning Path
-        </h2>
-
-        <p className="text-gray-700 mb-6">
-          This action cannot be undone.
-          <br />
-          To delete <strong>"{pathTitle}"</strong>,<br />
-          type <strong>delete</strong> below:
-        </p>
-
-        <input
-          type="text"
-          value={input}
-          onChange={(e) => setInput(e.target.value)}
-          placeholder="Type 'delete' to confirm"
-          className="w-full px-4 py-3 border border-gray-300 rounded-lg 
-                     focus:ring-2 focus:ring-red-500 outline-none mb-6"
-        />
-
-        <div className="flex justify-end gap-4">
-          <button
-            onClick={onClose}
-            className="px-6 py-3 text-gray-700 hover:bg-gray-100 rounded-lg transition"
-          >
-            Cancel
-          </button>
-
-          <button
-            onClick={onConfirm}
-            disabled={!confirmed}
-            className={`px-6 py-3 rounded-lg font-semibold transition ${
-              confirmed
-                ? "bg-red-600 hover:bg-red-700 text-white"
-                : "bg-gray-300 text-gray-500 cursor-not-allowed"
-            }`}
-          >
-            Delete
-          </button>
-        </div>
-      </motion.div>
-    </div>
-  );
-}
-
-/* ----------------------------------------------------- */
 
 export default function LearningResources() {
   const { user } = useAuth();
@@ -170,7 +107,6 @@ export default function LearningResources() {
       <LearningHeader title="Learning Resources" />
 
       <div className="max-w-7xl mx-auto px-6 md:px-10 pt-8 pb-16">
-        {/* CTA Card */}
         <ProCard className="mb-12 md:mb-16">
           <div className="flex flex-col md:flex-row items-center justify-between gap-8 md:gap-12">
             <div>
@@ -246,7 +182,6 @@ export default function LearningResources() {
                 onClick={() => navigate(`/learning-resources/${path._id}`)}
                 className="cursor-pointer group hover:border-[#5d60ef]/30 transition-colors relative"
               >
-                {/* DELETE BUTTON (top-right floating) */}
                 <div className="absolute top-4 right-4 z-20">
                   <button
                     onClick={(e) => {
@@ -322,14 +257,13 @@ export default function LearningResources() {
       {/* ---------------- Delete Confirmation Modal ---------------- */}
 
       <DeleteConfirmModal
-        key={pathToDelete?._id ?? "default"}
         isOpen={showDeleteModal}
         onClose={() => {
           setShowDeleteModal(false);
           setPathToDelete(null);
         }}
         onConfirm={handleDeleteConfirm}
-        pathTitle={
+        itemName={
           pathToDelete?.title ||
           pathToDelete?.courseName ||
           "this learning path"

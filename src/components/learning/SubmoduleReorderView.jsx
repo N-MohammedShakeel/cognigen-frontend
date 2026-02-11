@@ -1,4 +1,4 @@
-// src/components/SubmoduleReorderView.jsx
+// src/components/learning/SubmoduleReorderView.jsx
 import {
   DndContext,
   closestCenter,

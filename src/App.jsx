@@ -1,14 +1,13 @@
 // src/App.jsx
 import { Routes, Route, Navigate } from "react-router-dom";
 import { AuthProvider } from "./context/AuthContext";
-import ProtectedRoute from "./components/ProtectedRoute";
-
+import ProtectedRoute from "./routes/ProtectedRoute";
 import Login from "./pages/Auth/Login";
 import Signup from "./pages/Auth/Signup";
-import Home from "./pages/Home/Home";           // ← sidebar + dashboard wrapper
-import LandingPage from "./pages/Home/LandingPage";
-import LearningResources from "./pages/Learning/LearningResources";     // ← new
-import LearningPathDetail from "./pages/Learning/LearningPathDetail";  // ← new (we'll fill later)
+import Home from "./pages/Home/Home";
+import LandingPage from "./pages/Landing/LandingPage";
+import LearningResources from "./pages/Learning/LearningResources";
+import LearningPathDetail from "./pages/Learning/LearningPathDetail";
 
 function App() {
   return (
@@ -26,16 +25,11 @@ function App() {
 
           {/* Learning section – can be under /home or top-level */}
           <Route path="/learning-resources" element={<LearningResources />} />
-          <Route path="/learning-resources/:pathId" element={<LearningPathDetail />} />
-
-          {/* Optional future nested structure if you prefer */}
-          {/* 
-          <Route path="/home/learning" element={<LearningResources />} />
-          <Route path="/home/learning/:pathId" element={<LearningPathDetail />} />
-          */}
+          <Route
+            path="/learning-resources/:pathId"
+            element={<LearningPathDetail />}
+          />
         </Route>
-
-        {/* Catch-all */}
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
     </AuthProvider>

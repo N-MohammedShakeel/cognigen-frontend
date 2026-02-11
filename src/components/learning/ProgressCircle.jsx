@@ -1,3 +1,4 @@
+// src/components/learning/ProgressCircle.jsx
 import { motion } from "framer-motion";
 
 export default function ProgressCircle({ percentage = 0, size = 80 }) {

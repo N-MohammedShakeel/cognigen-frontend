@@ -17,16 +17,12 @@ export default function ProtectedRoute() {
     );
   }
 
-  // ─── Key fix ───────────────────────────────────────────────
-  // Never redirect if current path is login/signup
   const isAuthPage =
     location.pathname === "/login" || location.pathname === "/signup";
 
   if (!user && !isAuthPage) {
-    // Redirect to login, but remember where they came from
     return <Navigate to="/login" replace state={{ from: location }} />;
   }
 
-  // If user exists OR we are on auth page → show content
   return <Outlet />;
 }

@@ -1,4 +1,4 @@
-// src/components/TopicReorderView.jsx
+// src/components/learning/SubmoduleReorderView.jsx
 import {
   DndContext,
   closestCenter,

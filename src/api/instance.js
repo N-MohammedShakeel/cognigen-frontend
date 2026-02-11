@@ -1,4 +1,4 @@
-// src/api/instance.js
+// cognigen-frontend/src/api/instance.js
 import axios from "axios";
 
 const api = axios.create({

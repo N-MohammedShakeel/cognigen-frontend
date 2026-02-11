@@ -1,3 +1,4 @@
+// src/components/learning/ProCard.jsx
 import { motion } from "framer-motion";
 
 export default function ProCard({

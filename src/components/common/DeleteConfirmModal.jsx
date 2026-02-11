@@ -1,3 +1,4 @@
+// src/components/common/DeleteConfirmModal.jsx
 import { useState } from "react";
 import { motion } from "framer-motion";
 

@@ -1,9 +1,9 @@
-// src/pages/Dashboard.jsx
+// src/pages/Home/Dashboard.jsx
 import React from "react";
-import { useNavigate } from "react-router-dom"; // ← add this
+import { useNavigate } from "react-router-dom";
 import { FiSearch, FiBell, FiUser, FiLogOut } from "react-icons/fi";
 import { motion } from "framer-motion";
-import BackgroundSplashes from "../../components/BackgroundSplashes";
+import BackgroundSplashes from "../../components/common/BackgroundSplashes";
 
 const cardVariants = {
   hidden: { opacity: 0, y: 20 },

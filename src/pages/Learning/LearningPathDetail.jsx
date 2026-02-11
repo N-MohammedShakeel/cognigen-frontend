@@ -1,11 +1,12 @@
+// src/pages/Learning/LearningPathDetail.jsx
 import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import { useAuth } from "../../context/AuthContext";
-import LearningHeader from "../../components/LearningHeader";
-import TopicCard from "../../components/TopicCard";
-import PathEditModal from "../../components/PathEditModal";
-import RearrangeModal from "../../components/RearrangeModal";
+import LearningHeader from "../../components/learning/LearningHeader";
+import TopicCard from "../../components/learning/TopicCard";
+import PathEditModal from "../../components/learning/PathEditModal";
+import RearrangeModal from "../../components/learning/RearrangeModal";
 import toast from "react-hot-toast";
 import api from "../../api/instance";
 import { FiEdit2, FiMove, FiPlus } from "react-icons/fi";
@@ -88,10 +89,8 @@ export default function LearningPathDetail() {
       <LearningHeader title={path.title || `${path.courseName} Path`} />
 
       <div className="max-w-5xl mx-auto px-6 py-10">
-        {/* Overview Card */}
         <div className="bg-white rounded-2xl shadow-sm border border-gray-200 p-6 md:p-8 mb-12">
           <div className="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-6 lg:gap-10">
-            {/* Left: Title + Description + Buttons */}
             <div className="flex-1">
               <h1 className="text-3xl md:text-4xl font-bold text-gray-900 mb-3">
                 {path.title || `${path.courseName} Path`}
@@ -102,7 +101,6 @@ export default function LearningPathDetail() {
                   `Personalized ${path.courseName} learning path for ${path.experienceLevel} level – focused on ${path.goal.toLowerCase()}.`}
               </p>
 
-              {/* Action Buttons */}
               <div className="flex flex-wrap gap-3">
                 <button
                   onClick={() => setShowEditModal(true)}
@@ -128,7 +126,6 @@ export default function LearningPathDetail() {
               </div>
             </div>
 
-            {/* Right: Progress & Status */}
             <div className="flex flex-col items-center lg:items-end gap-4 min-w-[180px]">
               <div className="text-center lg:text-right">
                 <div className="text-sm text-gray-500 mb-1">
@@ -155,7 +152,6 @@ export default function LearningPathDetail() {
             </div>
           </div>
 
-          {/* Progress Bar */}
           <div className="mt-8 h-2.5 bg-gray-200 rounded-full overflow-hidden">
             <motion.div
               className="h-full bg-[#5d60ef]"
@@ -166,7 +162,6 @@ export default function LearningPathDetail() {
           </div>
         </div>
 
-        {/* Topics Section */}
         {path.topics.length === 0 ? (
           <div className="text-center py-20 bg-white rounded-xl border border-gray-200 shadow-sm">
             <div className="text-6xl mb-6">📚</div>
@@ -177,7 +172,6 @@ export default function LearningPathDetail() {
               This learning path is empty. Add your first topic to get started!
             </p>
 
-            {/* Add New Topic Button when no topics */}
             <button
               onClick={() => setShowEditModal(true)}
               className="inline-flex items-center gap-2 px-8 py-4 bg-[#5d60ef] hover:bg-[#4a4df2] text-white font-semibold rounded-xl shadow-md transition transform hover:scale-105"

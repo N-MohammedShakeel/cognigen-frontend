@@ -1,9 +1,9 @@
-// src/components/SortableItem.jsx
+// src/components/learning/SortableItem.jsx
 import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 import { FiMove } from "react-icons/fi";
 
-export default function SortableItem({ id, children, isSubmodule = false }) {
+export default function SortableItem({ id, children }) {
   const {
     attributes,
     listeners,

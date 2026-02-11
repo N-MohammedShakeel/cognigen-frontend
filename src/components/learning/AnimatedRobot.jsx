@@ -1,3 +1,4 @@
+// src/components/learning/AnimatedRobot.jsx
 import { motion } from "framer-motion";
 
 export default function AnimatedRobot({ size = 48 }) {
