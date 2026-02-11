@@ -1,10 +1,11 @@
-// cognigen-frontend/src/pages/Auth/Login.jsx
+// src/pages/Auth/Login.jsx
 import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
-import { login } from "../../api/authApi";
-import BackgroundSplashes from "../../components/BackgroundSplashes";
-import RobotAvatar from "../../components/RobotAvatar";
+import { useAuth } from "../../context/AuthContext";
+import toast from "react-hot-toast";
+import BackgroundSplashes from "../../components/common/BackgroundSplashes";
+import RobotAvatar from "../../components/auth/RobotAvatar";
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -20,9 +21,11 @@ export default function Login() {
   const [formData, setFormData] = useState({ email: "", password: "" });
   const [loading, setLoading] = useState(false);
   const [isEmailFocused, setIsEmailFocused] = useState(false);
-  const [isPasswordFocused, setIsPasswordFocused] = useState(false);
+  const [isPasswordActive, setIsPasswordActive] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
 
+  const { login: contextLogin } = useAuth();
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -36,12 +39,21 @@ export default function Login() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
+
     try {
-      await login(formData);
-      alert("Login successful! 🎉");
+      await contextLogin(formData);
+      toast.success("Login successful! 🎉", {
+        duration: 3000,
+        position: "top-center",
+      });
       navigate("/home");
     } catch (err) {
-      alert(err.response?.data?.message || "Login failed");
+      const message =
+        err.response?.data?.message || "Login failed. Please try again.";
+      toast.error(message, {
+        duration: 4000,
+        position: "top-center",
+      });
     } finally {
       setLoading(false);
     }
@@ -53,16 +65,14 @@ export default function Login() {
 
       <div className="min-h-screen flex items-center justify-center px-4 py-12 bg-gradient-to-br from-indigo-50/80 via-purple-50/60 to-pink-50/40">
         <div className="grid md:grid-cols-2 gap-12 max-w-6xl w-full items-center">
-          {/* Robot side - hidden on mobile */}
           <div className="hidden md:flex justify-center">
             <RobotAvatar
               isEmailFocused={isEmailFocused}
-              isPasswordFocused={isPasswordFocused}
+              isPasswordFocused={isPasswordActive} // 🔥 NEW
               mousePosition={mousePosition}
             />
           </div>
 
-          {/* Form side */}
           <motion.div
             variants={containerVariants}
             initial="hidden"
@@ -77,6 +87,7 @@ export default function Login() {
             >
               Welcome Back
             </motion.h2>
+
             <motion.p variants={itemVariants} className="text-gray-600 mb-8">
               Sign in to continue your learning journey.
             </motion.p>
@@ -86,10 +97,12 @@ export default function Login() {
                 <label className="text-sm font-semibold text-gray-700 ml-1">
                   Email Address
                 </label>
+
                 <div className="relative group">
                   <span className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 group-focus-within:text-[#5d60ef] transition-colors">
                     <i className="fas fa-envelope"></i>
                   </span>
+
                   <input
                     type="email"
                     placeholder="name@company.com"
@@ -117,22 +130,39 @@ export default function Login() {
                     Forgot password?
                   </button>
                 </div>
+
                 <div className="relative group">
                   <span className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 group-focus-within:text-[#5d60ef] transition-colors">
                     <i className="fas fa-lock"></i>
                   </span>
+
                   <input
-                    type="password"
+                    type={showPassword ? "text" : "password"}
                     placeholder="••••••••"
                     required
-                    onFocus={() => setIsPasswordFocused(true)}
-                    onBlur={() => setIsPasswordFocused(false)}
-                    className="w-full pl-12 pr-4 py-3.5 rounded-2xl bg-white/60 border border-gray-200 focus:border-[#5d60ef] focus:ring-4 focus:ring-[#5d60ef]/20 outline-none transition-all placeholder:text-gray-400"
+                    onFocus={() => setIsPasswordActive(true)}
+                    onBlur={() => setIsPasswordActive(false)}
+                    className="w-full pl-12 pr-12 py-3.5 rounded-2xl bg-white/60 border border-gray-200 focus:border-[#5d60ef] focus:ring-4 focus:ring-[#5d60ef]/20 outline-none transition-all placeholder:text-gray-400"
                     value={formData.password}
                     onChange={(e) =>
                       setFormData({ ...formData, password: e.target.value })
                     }
                   />
+
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setShowPassword((prev) => !prev);
+                      setIsPasswordActive(true);
+                    }}
+                    className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-500 hover:text-[#5d60ef] transition text-lg"
+                  >
+                    {showPassword ? (
+                      <i className="fas fa-eye-slash"></i>
+                    ) : (
+                      <i className="fas fa-eye"></i>
+                    )}
+                  </button>
                 </div>
               </motion.div>
 

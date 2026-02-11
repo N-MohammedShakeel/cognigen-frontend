@@ -1,10 +1,11 @@
-// cognigen-frontend/src/pages/Auth/Login.jsx
+// src/pages/Auth/Signup.jsx
 import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
-import { signup } from "../../api/authApi";
-import BackgroundSplashes from "../../components/BackgroundSplashes";
-import RobotAvatar from "../../components/RobotAvatar";
+import { useAuth } from "../../context/AuthContext";
+import toast from "react-hot-toast";
+import BackgroundSplashes from "../../components/common/BackgroundSplashes";
+import RobotAvatar from "../../components/auth/RobotAvatar";
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -23,11 +24,17 @@ export default function Signup() {
     password: "",
     confirmPassword: "",
   });
+
   const [loading, setLoading] = useState(false);
   const [isEmailFocused, setIsEmailFocused] = useState(false);
-  const [isPasswordFocused, setIsPasswordFocused] = useState(false);
+  const [isPasswordActive, setIsPasswordActive] = useState(false);
+
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
 
+  const { signup: contextSignup } = useAuth();
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -40,17 +47,36 @@ export default function Signup() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
     if (formData.password !== formData.confirmPassword) {
-      alert("Passwords don't match!");
+      toast.error("Passwords don't match!", {
+        duration: 4000,
+        position: "top-center",
+      });
       return;
     }
+
     setLoading(true);
+
     try {
-      await signup({ ...formData, phone: "" }); // phone optional → removed
-      alert("Account created successfully! 🎉");
+      await contextSignup({
+        name: formData.name,
+        email: formData.email,
+        password: formData.password,
+      });
+
+      toast.success("Account created successfully! 🎉", {
+        duration: 3000,
+        position: "top-center",
+      });
       navigate("/home");
     } catch (err) {
-      alert(err.response?.data?.message || "Signup failed");
+      const message =
+        err.response?.data?.message || "Signup failed. Please try again.";
+      toast.error(message, {
+        duration: 5000,
+        position: "top-center",
+      });
     } finally {
       setLoading(false);
     }
@@ -65,7 +91,7 @@ export default function Signup() {
           <div className="hidden md:flex justify-center">
             <RobotAvatar
               isEmailFocused={isEmailFocused}
-              isPasswordFocused={isPasswordFocused}
+              isPasswordFocused={isPasswordActive}
               mousePosition={mousePosition}
             />
           </div>
@@ -84,6 +110,7 @@ export default function Signup() {
             >
               Create Account
             </motion.h2>
+
             <motion.p variants={itemVariants} className="text-gray-600 mb-8">
               Join Cognigen to unlock your full potential.
             </motion.p>
@@ -93,10 +120,12 @@ export default function Signup() {
                 <label className="text-sm font-semibold text-gray-700 ml-1">
                   Full Name
                 </label>
+
                 <div className="relative group">
-                  <span className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 group-focus-within:text-[#5d60ef] transition-colors">
+                  <span className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400">
                     <i className="fas fa-user"></i>
                   </span>
+
                   <input
                     type="text"
                     placeholder="John Doe"
@@ -114,10 +143,12 @@ export default function Signup() {
                 <label className="text-sm font-semibold text-gray-700 ml-1">
                   Email Address
                 </label>
+
                 <div className="relative group">
-                  <span className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 group-focus-within:text-[#5d60ef] transition-colors">
+                  <span className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400">
                     <i className="fas fa-envelope"></i>
                   </span>
+
                   <input
                     type="email"
                     placeholder="name@company.com"
@@ -137,22 +168,39 @@ export default function Signup() {
                 <label className="text-sm font-semibold text-gray-700 ml-1">
                   Password
                 </label>
+
                 <div className="relative group">
-                  <span className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 group-focus-within:text-[#5d60ef] transition-colors">
+                  <span className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400">
                     <i className="fas fa-lock"></i>
                   </span>
+
                   <input
-                    type="password"
+                    type={showPassword ? "text" : "password"}
                     placeholder="Minimum 8 characters"
                     required
-                    onFocus={() => setIsPasswordFocused(true)}
-                    onBlur={() => setIsPasswordFocused(false)}
-                    className="w-full pl-12 pr-4 py-3.5 rounded-2xl bg-white/60 border border-gray-200 focus:border-[#5d60ef] focus:ring-4 focus:ring-[#5d60ef]/20 outline-none transition-all"
+                    onFocus={() => setIsPasswordActive(true)}
+                    onBlur={() => setIsPasswordActive(false)}
+                    className="w-full pl-12 pr-12 py-3.5 rounded-2xl bg-white/60 border border-gray-200 focus:border-[#5d60ef] focus:ring-4 focus:ring-[#5d60ef]/20 outline-none transition-all"
                     value={formData.password}
                     onChange={(e) =>
                       setFormData({ ...formData, password: e.target.value })
                     }
                   />
+
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setShowPassword((p) => !p);
+                      setIsPasswordActive(true);
+                    }}
+                    className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-500 text-lg hover:text-[#5d60ef]"
+                  >
+                    {showPassword ? (
+                      <i className="fas fa-eye-slash"></i>
+                    ) : (
+                      <i className="fas fa-eye"></i>
+                    )}
+                  </button>
                 </div>
               </motion.div>
 
@@ -160,15 +208,17 @@ export default function Signup() {
                 <label className="text-sm font-semibold text-gray-700 ml-1">
                   Confirm Password
                 </label>
+
                 <div className="relative group">
-                  <span className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 group-focus-within:text-[#5d60ef] transition-colors">
+                  <span className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400">
                     <i className="fas fa-lock"></i>
                   </span>
+
                   <input
-                    type="password"
+                    type={showConfirmPassword ? "text" : "password"}
                     placeholder="••••••••"
                     required
-                    className="w-full pl-12 pr-4 py-3.5 rounded-2xl bg-white/60 border border-gray-200 focus:border-[#5d60ef] focus:ring-4 focus:ring-[#5d60ef]/20 outline-none transition-all"
+                    className="w-full pl-12 pr-12 py-3.5 rounded-2xl bg-white/60 border border-gray-200 focus:border-[#5d60ef] focus:ring-4 focus:ring-[#5d60ef]/20 outline-none transition-all"
                     value={formData.confirmPassword}
                     onChange={(e) =>
                       setFormData({
@@ -177,6 +227,21 @@ export default function Signup() {
                       })
                     }
                   />
+
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setShowConfirmPassword((p) => !p);
+                      setIsPasswordActive(true);
+                    }}
+                    className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-500 text-lg hover:text-[#5d60ef]"
+                  >
+                    {showConfirmPassword ? (
+                      <i className="fas fa-eye-slash"></i>
+                    ) : (
+                      <i className="fas fa-eye"></i>
+                    )}
+                  </button>
                 </div>
               </motion.div>
 

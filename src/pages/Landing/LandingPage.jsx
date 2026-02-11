@@ -1,8 +1,9 @@
-// 
+// src/pages/Landing/LandingPage.jsx
 import React from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { motion } from "framer-motion";
-import BackgroundSplashes from "../../components/BackgroundSplashes";
+import BackgroundSplashes from "../../components/common/BackgroundSplashes";
+import Navbar from "../../components/common/Navbar";
 import {
   FaFacebookF,
   FaTwitter,
@@ -93,6 +94,7 @@ function LandingPage() {
   return (
     <>
       <BackgroundSplashes />
+      <Navbar />
 
       <div className="relative min-h-screen overflow-hidden bg-gradient-to-br from-indigo-50/80 via-purple-50/70 to-pink-50/50">
         {/* ─── HERO ──────────────────────────────────────────────── */}
@@ -101,45 +103,6 @@ function LandingPage() {
           <div className="absolute top-0 right-0 h-full w-full md:w-5/12 bg-white/30 backdrop-blur-sm clip-slant" />
 
           <div className="relative z-10 max-w-7xl mx-auto px-6 md:px-12">
-            {/* Navbar */}
-            <nav className="backdrop-blur-xl bg-white/30 border-b border-white/20 px-6 py-5 flex items-center justify-between">
-              <div className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-[#5d60ef] to-purple-600 flex items-center justify-center text-white font-bold shadow-md">
-                  CG
-                </div>
-                <span className="text-2xl font-bold bg-gradient-to-r from-[#5d60ef] to-purple-700 bg-clip-text text-transparent">
-                  CogniGen
-                </span>
-              </div>
-
-              <div className="hidden md:flex gap-8 text-gray-800 font-medium">
-                <a href="#features" className="hover:text-[#5d60ef] transition">
-                  Features
-                </a>
-                <a href="#" className="hover:text-[#5d60ef] transition">
-                  Paths
-                </a>
-                <a href="#" className="hover:text-[#5d60ef] transition">
-                  Instructors
-                </a>
-              </div>
-
-              <div className="flex items-center gap-5">
-                <Link
-                  to="/login"
-                  className="text-gray-700 hover:text-[#5d60ef] font-medium transition"
-                >
-                  Login
-                </Link>
-                <Link
-                  to="/signup"
-                  className="bg-[#5d60ef] hover:bg-[#4a4df2] text-white px-6 py-2.5 rounded-2xl font-semibold shadow-lg shadow-[#5d60ef]/30 transition"
-                >
-                  Get Started
-                </Link>
-              </div>
-            </nav>
-
             {/* Hero Content */}
             <div className="flex flex-col md:flex-row items-center justify-between pt-16 md:pt-28 gap-12">
               <motion.div

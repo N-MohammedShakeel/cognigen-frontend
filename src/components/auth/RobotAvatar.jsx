@@ -1,4 +1,4 @@
-// src/components/RobotAvatar.jsx
+// src/components/auth/RobotAvatar.jsx
 import { useMemo } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 
@@ -28,8 +28,8 @@ export default function RobotAvatar({
           {isPasswordFocused
             ? "Don't worry, I'm looking away! 🙈"
             : isEmailFocused
-            ? "Scanning for your account... 🔍"
-            : "Welcome to Cognigen! Ready? 🚀"}
+              ? "Scanning for your account... 🔍"
+              : "Welcome to Cognigen! Ready? 🚀"}
           <div className="absolute bottom-[-6px] left-6 w-3 h-3 bg-white/40 rotate-45 border-b border-l border-white/30" />
         </motion.div>
       </AnimatePresence>
@@ -89,8 +89,8 @@ export default function RobotAvatar({
                 isPasswordFocused
                   ? { rotate: -30 }
                   : isEmailFocused
-                  ? { rotate: -8 }
-                  : { rotate: 0 }
+                    ? { rotate: -8 }
+                    : { rotate: 0 }
               }
               style={{ originX: "47px", originY: "135px" }}
             />
@@ -105,8 +105,8 @@ export default function RobotAvatar({
                 isPasswordFocused
                   ? { rotate: 30 }
                   : isEmailFocused
-                  ? { rotate: 8 }
-                  : { rotate: 0 }
+                    ? { rotate: 8 }
+                    : { rotate: 0 }
               }
               style={{ originX: "153px", originY: "135px" }}
             />

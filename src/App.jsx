@@ -1,25 +1,38 @@
-// cognigen-frontend/src/App.jsx
+// src/App.jsx
 import { Routes, Route, Navigate } from "react-router-dom";
-import Login from "./pages/Auth/Login.jsx";
-import Signup from "./pages/Auth/Signup.jsx";
-import Home from "./pages/Home/Home.jsx";
-import LandingPage from "./pages/Home/LandingPage.jsx";
+import { AuthProvider } from "./context/AuthContext";
+import ProtectedRoute from "./routes/ProtectedRoute";
+import Login from "./pages/Auth/Login";
+import Signup from "./pages/Auth/Signup";
+import Home from "./pages/Home/Home";
+import LandingPage from "./pages/Landing/LandingPage";
+import LearningResources from "./pages/Learning/LearningResources";
+import LearningPathDetail from "./pages/Learning/LearningPathDetail";
+
 function App() {
   return (
-    <>
+    <AuthProvider>
       <Routes>
-        {/* Public Routes */}
+        {/* Public routes */}
+        <Route path="/" element={<LandingPage />} />
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
-        <Route path="/" element={<LandingPage />} />
 
-        {/* private Routes */}
-        <Route path="/home" element={<Home />} />
+        {/* Protected routes – everything under /home or /learning-resources requires login */}
+        <Route element={<ProtectedRoute />}>
+          {/* Home & dashboard */}
+          <Route path="/home" element={<Home />} />
 
-        {/* Catch all unknown routes */}
-        <Route path="*" element={<Navigate to="/login" replace />} />
+          {/* Learning section – can be under /home or top-level */}
+          <Route path="/learning-resources" element={<LearningResources />} />
+          <Route
+            path="/learning-resources/:pathId"
+            element={<LearningPathDetail />}
+          />
+        </Route>
+        <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
-    </>
+    </AuthProvider>
   );
 }
 
