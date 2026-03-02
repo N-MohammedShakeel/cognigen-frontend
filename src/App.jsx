@@ -8,6 +8,7 @@ import Home from "./pages/Home/Home";
 import LandingPage from "./pages/Landing/LandingPage";
 import LearningResources from "./pages/Learning/LearningResources";
 import LearningPathDetail from "./pages/Learning/LearningPathDetail";
+import Test from "./pages/Test/Test";
 
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
         <Route path="/" element={<LandingPage />} />
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
+        <Route path="/test" element={<Test />} />
 
         {/* Protected routes – everything under /home or /learning-resources requires login */}
         <Route element={<ProtectedRoute />}>
