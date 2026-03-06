@@ -7,8 +7,12 @@ import Signup from "./pages/Auth/Signup";
 import Home from "./pages/Home/Home";
 import LandingPage from "./pages/Landing/LandingPage";
 import LearningResources from "./pages/Learning/LearningResources";
+import MockInterviewLanguageSelection from "./components/mockInterview/MockInterviewLanguageSelection";
+import MockInterviewSession from "./components/mockInterview/MockInterviewSession";
 import LearningPathDetail from "./pages/Learning/LearningPathDetail";
-
+import MockInterviewFeedback from "./components/mockInterview/MockInterviewFeedback";
+import Test from "./pages/Test/Test";
+import NotebookPage from "./pages/Learning/NotebookPage";
 function App() {
   return (
     <AuthProvider>
@@ -29,13 +33,29 @@ function App() {
             path="/learning-resources/:pathId"
             element={<LearningPathDetail />}
           />
-          <Route path="/mock-interview" element={<MockInterviewLanguageSelection />} />
-          <Route path="/mock-interview/session" element={<MockInterviewSession />}/>
-
           <Route
             path="/learning-resources/:pathId/notebook/:topicId"
             element={<NotebookPage />}
           />
+          <Route
+            path="/mock-interview"
+            element={<MockInterviewLanguageSelection />}
+          />
+          <Route
+            path="/mock-interview/session"
+            element={<MockInterviewSession />}
+          />
+          <Route
+            path="/mock-interview/session/feedback"
+            element={<MockInterviewFeedback />}
+          />
+
+          <Route path="/test" element={<Test />} />
+
+          {/* <Route
+            path="/learning-resources/:pathId/notebook/:topicId"
+            element={<NotebookPage />}
+          /> */}
         </Route>
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>

@@ -93,6 +93,7 @@ function Dashboard() {
             <motion.div
               variants={cardVariants}
               whileHover={{ scale: 1.03, transition: { duration: 0.2 } }}
+              onClick={() => navigate("/test")}
               className="backdrop-blur-xl bg-white/40 border border-white/30 rounded-3xl shadow-xl p-8 flex flex-col items-center text-center hover:shadow-2xl transition-all group"
             >
               <div className="w-20 h-20 rounded-2xl bg-gradient-to-br from-purple-500/10 to-pink-500/10 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
@@ -110,7 +111,7 @@ function Dashboard() {
             <motion.div
               variants={cardVariants}
               whileHover={{ scale: 1.03, transition: { duration: 0.2 } }}
-               onClick={() => navigate("/mock-interview")}
+              onClick={() => navigate("/mock-interview")}
               className="backdrop-blur-xl bg-white/40 border border-white/30 rounded-3xl shadow-xl p-8 flex flex-col items-center text-center hover:shadow-2xl transition-all group"
             >
               <div className="w-20 h-20 rounded-2xl bg-gradient-to-br from-pink-500/10 to-[#5d60ef]/10 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
