@@ -35,12 +35,6 @@ I was responsible for designing and implementing the **Profile Management** and 
 
 ---
 
-# Overview
-
-Cognigen Frontend provides an interactive learning experience by integrating with the Cognigen Backend and AI Service to deliver:
-
----
-
 # Tech Stack
 
 ## Frontend
