@@ -2,69 +2,42 @@
 
 Frontend application for **Cognigen**, an AI-powered personalized learning platform that enables users to generate adaptive learning paths, manage learning progress, interact with notebook-style learning content, and complete AI-generated quizzes.
 
+## My Role in the Project
+
+> **Frontend Developer (Profile Management & Learning Path Module)**
+
+This project was developed collaboratively as a team project.  
+I was responsible for designing and implementing the **Profile Management** and **Learning Path** modules, including authentication flow, dashboard interactions, notebook-based learning experience, topic management, drag-and-drop reordering, and notebook cell editing workflows.
+
+### Modules Implemented by Me
+
+#### Profile Management
+
+- Signup UI
+- Signin UI
+- JWT Authentication Flow (Cookie-based)
+- Protected Routes
+- Profile Page
+- Settings Page
+- Logout Flow
+
+#### Learning Path Module
+
+- Learning Path Dashboard
+- Learning Path Generation Modal
+- Learning Path Details Page
+- Topic Management UI
+- Topic Editing & Add Topic Flow
+- Topic/Submodule Rearrangement (Drag-and-Drop)
+- Notebook Learning Page
+- Notebook Cell CRUD UI (Add/Edit/Delete)
+- Rearrangement of Notebook Content
+
 ---
 
 # Overview
 
 Cognigen Frontend provides an interactive learning experience by integrating with the Cognigen Backend and AI Service to deliver:
-
-- Personalized learning path generation
-- AI-generated educational content
-- Notebook-style learning interface
-- Progress tracking
-- Profile & settings management
-- Leaderboard system
-- Drag-and-drop topic organization
-
----
-
-# Features
-
-## Authentication & User Management
-
-- User Signup
-- User Signin
-- Cookie-based JWT Authentication
-- Protected Routes
-- Profile Management
-- Settings Management
-- Logout Confirmation Modal
-
----
-
-## Learning Path Management
-
-- Generate personalized learning paths
-- AI-based learning path generation modal
-- View learning path details
-- Edit learning paths
-- Manage topics & submodules
-- Add/Edit/Delete topics
-- Rearrange topics using drag-and-drop
-- Rearrange notebook content
-
----
-
-## Notebook Learning Experience
-
-Notebook-style learning interface supporting:
-
-- Markdown content
-- Code blocks
-- Resource sections
-- Notebook cell editing
-- Add notebook cells
-- Edit notebook cells
-- Delete notebook cells
-
----
-
-## Progress & Gamification
-
-- Learning progress tracking
-- User leaderboard
-- Personalized dashboard
-- Course completion tracking
 
 ---
 
