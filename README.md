@@ -4,7 +4,7 @@ Frontend application for **Cognigen**, an AI-powered personalized learning platf
 
 ## My Role in the Project
 
-> **Frontend Developer (Profile Management & Learning Path Module)**
+> **Full-Stack Developer (Profile Management & Learning Path Module)**
 
 This project was developed collaboratively as a team project.  
 I was responsible for designing and implementing the **Profile Management** and **Learning Path** modules, including authentication flow, dashboard interactions, notebook-based learning experience, topic management, drag-and-drop reordering, and notebook cell editing workflows.
