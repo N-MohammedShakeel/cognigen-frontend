@@ -49,7 +49,6 @@ I was responsible for designing and implementing the **Profile Management** and 
 ## UI & Animation Libraries
 
 - shadcn/ui
-- Material UI
 - Framer Motion
 - Lucide React
 - React Icons
